@@ -127,4 +127,11 @@
   html {
     @apply font-mono;
     }
+
+  h1{
+    @apply text-5xl
+  }
+  span{
+    @apply text-orange-500 italic font-bold
+  }
 }
