@@ -13,7 +13,7 @@ function LandingPage() {
       <div className="absolute h-screen w-screen bg-black/70 backdrop-opacity-10"></div>
       <main className="absolute z-0 flex flex-col items-center justify-center gap-5">
         <h1 className="text-center text-white">
-          Sit down, Open the computer, and use <span>Oh-Oh-Peace</span>
+          Sit down, Open the computer, and use <span>OH-OH-PEACE</span>
         </h1>
         <p className="text-white">
           Improve your oop skills by solving real application problems, not just
