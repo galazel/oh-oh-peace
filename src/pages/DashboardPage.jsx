@@ -262,6 +262,9 @@ function DashboardPage() {
                   <CardContent>
                     <p>{item.description}</p>
                   </CardContent>
+                  <CardFooter className="flex justify-end">
+                    <Button className="w-full p-5">Solve</Button>
+                  </CardFooter>
                 </Card>
               ))}
         </div>
