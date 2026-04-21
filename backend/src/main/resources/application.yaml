@@ -39,7 +39,7 @@ management:
 
 logging:
   level:
-    root: INFO   # 🔥 THIS is the key for "log everything"
+    root: INFO  
     com.oh_oh_peace.backend: INFO
     org.hibernate.SQL: DEBUG
     org.hibernate.type.descriptor.sql: INFO

@@ -5,6 +5,7 @@ import NotFoundPage from "./pages/NotFoundPage"
 import DashboardPage from "./pages/DashboardPage"
 import ProfilePage from "./pages/ProfilePage"
 import DashboardLayout from "./layouts/DashboardLayout"
+import CodingPlaygroundPage from "./pages/CodingPlaygroundPage"
 
 export function App() {
   return (
@@ -14,6 +15,8 @@ export function App() {
       <Route path="/dashboard" element={<DashboardLayout />}>
         <Route index element={<DashboardPage />} />
         <Route path="me" element={<ProfilePage />} />
+        <Route path="code" element={<CodingPlaygroundPage />} />
+
       </Route>
       <Route path="/auth-callback" element={<AuthcallbackPage/>}/>
       <Route path="/signout" element={<AuthcallbackPage/>}/>
