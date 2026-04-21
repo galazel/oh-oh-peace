@@ -205,56 +205,89 @@ export default function CodingPlaygroundPage() {
   const [selectedLanguage, setSelectedLanguage] = useState("")
 
   return (
-<div className="flex max-h-full flex-col gap-2">
-      <div className="flex justify-end ">
-        <Select
-          items={items}
-          value={selectedLanguage}
-          onValueChange={(value) => {
-            setSelectedLanguage(value)
-          }}
-        >
-          <SelectTrigger className="w-45">
-            <SelectValue placeholder="Language" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectGroup>
-              {items.map((item) => (
-                <SelectItem key={item.value} value={item.value}>
-                  {item.label}
-                </SelectItem>
-              ))}
-            </SelectGroup>
-          </SelectContent>
-        </Select>
-      </div>
-      <ResizablePanelGroup orientation="horizontal" className="bg-white p-1">
-        <ResizablePanel>
-          <pre style={{ whiteSpace: "pre-wrap", fontFamily: "inherit" }}>
-            {example["question"]}
-          </pre>
+  <div className="h-screen w-full flex flex-col gap-2 p-2 bg-white">
+    
+    {/* TOP BAR */}
+    <div className="flex justify-end">
+      <Select
+        items={items}
+        value={selectedLanguage}
+        onValueChange={setSelectedLanguage}
+      >
+        <SelectTrigger className="w-48">
+          <SelectValue placeholder="Language" />
+        </SelectTrigger>
+
+        <SelectContent>
+          <SelectGroup>
+            {items.map((item) => (
+              <SelectItem key={item.value} value={item.value}>
+                {item.label}
+              </SelectItem>
+            ))}
+          </SelectGroup>
+        </SelectContent>
+      </Select>
+    </div>
+
+    {/* MAIN RESIZABLE AREA */}
+    <div className="flex-1 min-h-0">
+      <ResizablePanelGroup orientation="horizontal" className="h-full rounded-md border">
+        
+        {/* LEFT: PROBLEM */}
+        <ResizablePanel defaultSize={40} className="min-h-0">
+          <div className="h-full overflow-auto p-4">
+            <pre className="whitespace-pre-wrap text-sm font-inherit">
+              {example.question}
+            </pre>
+          </div>
         </ResizablePanel>
+
         <ResizableHandle withHandle />
-        <ResizablePanel>
-          <ResizablePanelGroup orientation="vertical" className="bg-white p-1">
-            <ResizablePanel>
-              <Editor
-                height="90vh"
-                defaultLanguage={selectedLanguage}
-                defaultValue="//enter your code here"
-              />
-            </ResizablePanel>
-            <ResizableHandle withHandle />
-            <ResizablePanel className="flex flex-col p-2">
-              <div className="flex gap-2 border-b border-gray-100 pb-2">
-                <Button>Test Cases</Button>
-                <Button>AI Response</Button>
+
+        {/* RIGHT SIDE */}
+        <ResizablePanel defaultSize={60} className="min-h-0">
+          <ResizablePanelGroup orientation="vertical" className="h-full">
+            
+            {/* EDITOR */}
+            <ResizablePanel defaultSize={70} className="min-h-0">
+              <div className="h-full">
+                <Editor
+                  height="100%"
+                  defaultLanguage={selectedLanguage}
+                  defaultValue="// enter your code here"
+                  options={{
+                    minimap: { enabled: false },
+                    fontSize: 14,
+                  }}
+                />
               </div>
-              <div className="h-full"></div>
             </ResizablePanel>
+
+            <ResizableHandle withHandle />
+
+            {/* BOTTOM PANEL */}
+            <ResizablePanel defaultSize={30} className="min-h-0">
+              <div className="h-full flex flex-col">
+                
+                {/* TABS */}
+                <div className="flex gap-2 border-b pb-2">
+                  <Button variant="outline">Test Cases</Button>
+                  <Button variant="outline">AI Response</Button>
+                </div>
+
+                {/* CONTENT */}
+                <div className="flex-1 overflow-auto p-2 text-sm text-gray-600">
+                  Select a tab to view output
+                </div>
+              </div>
+            </ResizablePanel>
+
           </ResizablePanelGroup>
         </ResizablePanel>
+
       </ResizablePanelGroup>
     </div>
-  )
+  </div>
+)
 }

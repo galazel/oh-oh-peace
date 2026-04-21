@@ -26,7 +26,7 @@ function LandingPage() {
           Get Started Now
         </Button>
       </main>
-      <footer className="absolute bottom-0 left-0 pl-1 text-2xl text-white">
+      <footer className="absolute bottom-0 left-0 pl-1 text-white">
         Galagar, 2026
       </footer>
     </div>

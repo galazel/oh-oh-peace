@@ -201,17 +201,29 @@ function DashboardPage() {
 
 
   return (
-    <main className="h-full w-full">
-      <h1 className="text-center">SOLVE PROBLEMS USING OOP CONCEPTS</h1>
-      <div className="m-5 mt-10 grid grid-cols-[20%_1fr] gap-5">
-        <FieldSet className="border-r-2">
-          <FieldLegend variant="label">Select OOP Categories</FieldLegend>
+  <main className="h-screen w-full flex flex-col">
+    {/* HEADER */}
+    <header className="border-b px-6 py-4">
+      <h1 className="text-center text-lg font-semibold tracking-wide">
+        SOLVE PROBLEMS USING OOP CONCEPTS
+      </h1>
+    </header>
+
+    {/* BODY */}
+    <div className="flex flex-1 overflow-hidden">
+      
+      {/* SIDEBAR */}
+      <aside className="w-72 border-r p-4 overflow-y-auto">
+        <FieldSet>
+          <FieldLegend variant="label">
+            Select OOP Categories
+          </FieldLegend>
 
           <FieldDescription>
             Choose which topics you want to practice.
           </FieldDescription>
 
-          <FieldGroup className="gap-3">
+          <FieldGroup className="mt-4 flex flex-col gap-3">
             {mockCategories.map((item) => (
               <Field orientation="horizontal" key={item.category}>
                 <Checkbox
@@ -226,53 +238,58 @@ function DashboardPage() {
             ))}
           </FieldGroup>
         </FieldSet>
+      </aside>
 
-        <div className="grid grid-cols-3 gap-2">
-          {selectedCategories.length == 0
-            ? mockCategories.map((item) => {
-                return item.problems.map((problem, index2) => {
-                  return (
-                    <Card key={index2}>
-                      <CardHeader>
-                        <CardTitle>{problem.name}</CardTitle>
-                        <CardDescription>
-                          {item.category} minutes
-                        </CardDescription>
-                        <CardDescription>
-                          {problem.duration} minutes
-                        </CardDescription>
+      {/* MAIN CONTENT */}
+      <section className="flex-1 p-6 overflow-y-auto">
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          
+          {selectedCategories.length === 0
+            ? mockCategories.flatMap((item) =>
+                item.problems.map((problem, index) => (
+                  <Card key={`${item.category}-${index}`}>
+                    <CardHeader>
+                      <CardTitle>{problem.name}</CardTitle>
+                      <CardDescription>
+                        {problem.duration} minutes
+                      </CardDescription>
+                      <CardAction>{problem.difficulty}</CardAction>
+                    </CardHeader>
 
-                        <CardAction>{problem.difficulty}</CardAction>
-                      </CardHeader>
-                      <CardContent>
-                        <p>{problem.description}</p>
-                      </CardContent>
-                      <CardFooter className="flex justify-end">
-                        <Button className="w-full p-5">Solve</Button>
-                      </CardFooter>
-                    </Card>
-                  )
-                })
-              })
+                    <CardContent>
+                      <p>{problem.description}</p>
+                    </CardContent>
+
+                    <CardFooter className="flex justify-end">
+                      <Button className="w-full p-5">Solve</Button>
+                    </CardFooter>
+                  </Card>
+                ))
+              )
             : visibleProblems.map((item, index) => (
                 <Card key={index}>
                   <CardHeader>
                     <CardTitle>{item.name}</CardTitle>
-                    <CardDescription>{item.duration} minutes</CardDescription>
+                    <CardDescription>
+                      {item.duration} minutes
+                    </CardDescription>
                     <CardAction>{item.difficulty}</CardAction>
                   </CardHeader>
+
                   <CardContent>
                     <p>{item.description}</p>
                   </CardContent>
+
                   <CardFooter className="flex justify-end">
                     <Button className="w-full p-5">Solve</Button>
                   </CardFooter>
                 </Card>
               ))}
         </div>
-      </div>
-    </main>
-  )
+      </section>
+    </div>
+  </main>
+)
 }
 
 export default DashboardPage
