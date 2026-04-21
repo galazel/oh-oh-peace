@@ -1,0 +1,23 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://${endpoint}:5432/${database}
+    username: ${username}
+    password: ${password}
+    driver-class-name: org.postgresql.Driver
+    hikari:
+      maximum-pool-size: 5
+      minimum-idle: 2
+      connection-timeout: 30000
+
+  cloud:
+    aws:
+      credentials:
+        access-key: ${aws-access-key}
+        secret-key: ${aws-secret-key}
+      region:
+          static: us-east-1
+
+aws:
+  s3:
+    bucket: ${bucket}
+
