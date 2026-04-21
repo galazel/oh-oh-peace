@@ -26,8 +26,9 @@ function AuthcallbackPage() {
       </div>
     )
   }
-
-  return nav("/dashboard")
+  if(auth.isAuthenticated)
+    localStorage.setItem('token',auth.user?.access_token)
+    return nav("/dashboard")
 }
 
 export default AuthcallbackPage

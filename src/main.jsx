@@ -12,6 +12,7 @@ const cognitoAuthConfig = {
   redirect_uri: "http://localhost:5173/auth-callback",
   response_type: "code",
   scope: "email openid phone",
+  post_logout_redirect_uri: "http://localhost:5173",
 }
 
 createRoot(document.getElementById("root")).render(
