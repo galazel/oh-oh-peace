@@ -1,29 +1,38 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+		 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
+		                     http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
 	<modelVersion>4.0.0</modelVersion>
+
+	<!-- ✅ Use stable Spring Boot 3.x (LangChain4j 1.0.0-beta2 is NOT compatible with Spring Boot 4.x) -->
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>4.0.5</version>
+		<version>3.4.5</version>
 		<relativePath/>
 	</parent>
 
 	<groupId>com.oh_oh_peace</groupId>
 	<artifactId>backend</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>backend</name>
-	<description>Oh Oh Peace Backend</description>
+	<n>backend</n>
 
 	<properties>
-		<java.version>26</java.version>
-		<spring-cloud-aws.version>4.0.0-RC1</spring-cloud-aws.version>
-		<springdoc.version>3.0.2</springdoc.version>
-		<testcontainers.version>1.20.4</testcontainers.version>
+		<!-- ✅ Use LTS Java -->
+		<java.version>21</java.version>
+
+		<spring-cloud-aws.version>4.0.0</spring-cloud-aws.version>
+		<springdoc.version>2.5.0</springdoc.version>
+		<testcontainers.version>1.19.7</testcontainers.version>
+		<langchain4j.version>1.0.0-beta2</langchain4j.version>
 	</properties>
 
+	<!-- ================= Dependency Management ================= -->
 	<dependencyManagement>
 		<dependencies>
+
 			<dependency>
 				<groupId>io.awspring.cloud</groupId>
 				<artifactId>spring-cloud-aws-dependencies</artifactId>
@@ -31,6 +40,7 @@
 				<type>pom</type>
 				<scope>import</scope>
 			</dependency>
+
 			<dependency>
 				<groupId>org.testcontainers</groupId>
 				<artifactId>testcontainers-bom</artifactId>
@@ -38,115 +48,137 @@
 				<type>pom</type>
 				<scope>import</scope>
 			</dependency>
+
 		</dependencies>
 	</dependencyManagement>
 
+	<!-- ================= Dependencies ================= -->
 	<dependencies>
 
-		<!-- ── Web ─────────────────────────────────────────────── -->
+		<!-- 🌐 REST API (MVC) -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
 
-		<!-- ── Data ────────────────────────────────────────────── -->
+		<!-- ⚡ WebClient ONLY (no full WebFlux server) -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-webflux</artifactId>
+		</dependency>
+		<!-- reactor-netty-http is the HTTP transport that backs WebClient -->
+		<dependency>
+			<groupId>io.projectreactor.netty</groupId>
+			<artifactId>reactor-netty-http</artifactId>
+		</dependency>
+
+		<!-- 🗄️ JPA -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-jpa</artifactId>
 		</dependency>
+
+		<!-- 🐘 PostgreSQL -->
 		<dependency>
 			<groupId>org.postgresql</groupId>
 			<artifactId>postgresql</artifactId>
 			<scope>runtime</scope>
 		</dependency>
 
-		<!-- ── Validation ──────────────────────────────────────── -->
+		<!-- ✅ Validation -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-validation</artifactId>
 		</dependency>
 
-		<!-- ── Security / OAuth2 ───────────────────────────────── -->
+		<!-- 🔐 Security -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-security</artifactId>
 		</dependency>
+
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-oauth2-resource-server</artifactId>
 		</dependency>
 
-		<!-- ── Actuator ────────────────────────────────────────── -->
+		<!-- 🤖 LangChain4j -->
+		<dependency>
+			<groupId>dev.langchain4j</groupId>
+			<artifactId>langchain4j-open-ai-spring-boot-starter</artifactId>
+			<version>${langchain4j.version}</version>
+		</dependency>
+
+		<!-- 🧠 Core LangChain -->
+		<dependency>
+			<groupId>dev.langchain4j</groupId>
+			<artifactId>langchain4j</artifactId>
+			<version>${langchain4j.version}</version>
+		</dependency>
+
+		<!-- 🤖 LangChain4j @AiService Spring support (provides dev.langchain4j.service.spring package) -->
+		<dependency>
+			<groupId>dev.langchain4j</groupId>
+			<artifactId>langchain4j-spring-boot-starter</artifactId>
+			<version>${langchain4j.version}</version>
+		</dependency>
+
+		<!-- 📊 Actuator -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-actuator</artifactId>
 		</dependency>
 
-		<!-- ── OpenAPI / Swagger ───────────────────────────────── -->
+		<!-- 📘 Swagger -->
 		<dependency>
 			<groupId>org.springdoc</groupId>
 			<artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
 			<version>${springdoc.version}</version>
 		</dependency>
 
-		<!-- ── AWS S3 ──────────────────────────────────────────── -->
-<!--		<dependency>-->
-<!--			<groupId>io.awspring.cloud</groupId>-->
-<!--			<artifactId>spring-cloud-aws-starter-s3</artifactId>-->
-<!--		</dependency>-->
-
-		<!-- ── Lombok ──────────────────────────────────────────── -->
+		<!-- 🧩 Lombok -->
 		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
 			<optional>true</optional>
 		</dependency>
 
-		<!-- ── Test ────────────────────────────────────────────── -->
+		<!-- ================= TEST ================= -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
+
 		<dependency>
 			<groupId>org.springframework.security</groupId>
 			<artifactId>spring-security-test</artifactId>
 			<scope>test</scope>
 		</dependency>
+
 		<dependency>
 			<groupId>org.testcontainers</groupId>
 			<artifactId>junit-jupiter</artifactId>
 			<scope>test</scope>
 		</dependency>
-		<dependency>
-			<groupId>org.testcontainers</groupId>
-			<artifactId>localstack</artifactId>
-			<scope>test</scope>
-		</dependency>
+
 		<dependency>
 			<groupId>org.testcontainers</groupId>
 			<artifactId>postgresql</artifactId>
 			<scope>test</scope>
 		</dependency>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-webflux</artifactId>
-		</dependency>
-
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-webflux-test</artifactId>
-			<scope>test</scope>
-		</dependency>
 
 	</dependencies>
 
+	<!-- ================= BUILD ================= -->
 	<build>
 		<plugins>
+
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 				<configuration>
+					<!-- Exclude Lombok from the fat jar -->
 					<excludes>
 						<exclude>
 							<groupId>org.projectlombok</groupId>
@@ -155,10 +187,14 @@
 					</excludes>
 				</configuration>
 			</plugin>
+
+			<!-- ✅ Compiler -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
 				<configuration>
+					<source>${java.version}</source>
+					<target>${java.version}</target>
 					<annotationProcessorPaths>
 						<path>
 							<groupId>org.projectlombok</groupId>
@@ -167,6 +203,7 @@
 					</annotationProcessorPaths>
 				</configuration>
 			</plugin>
+
 		</plugins>
 	</build>
 

@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "achievement-logs")
+@Table(name = "achievement_logs")
 public class AchievementLog {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

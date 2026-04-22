@@ -6,7 +6,7 @@ import jakarta.persistence.*;
 import java.time.Duration;
 
 @Entity
-@Table(name = "problems-solved")
+@Table(name = "problems_solved")
 public class ProblemSolved {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
