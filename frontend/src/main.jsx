@@ -17,7 +17,7 @@ const cognitoAuthConfig = {
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
-    <ThemeProvider>
+    <ThemeProvider >
       <BrowserRouter>
         <AuthProvider {...cognitoAuthConfig}>
           <App />

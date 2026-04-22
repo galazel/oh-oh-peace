@@ -18,7 +18,7 @@ public class SecurityConfig {
                 .cors(Customizer.withDefaults())
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(
-                                "/swagger-ui/**"
+                                "/swagger-ui/**", "/api/v1/code/**"
                         ).permitAll()
                         .anyRequest().authenticated()
                 )

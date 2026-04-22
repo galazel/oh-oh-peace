@@ -17,9 +17,7 @@ import {
   CardTitle,
 } from "@/components/ui/card"
 
-// ─── YOUR DATA ───────────────────────────────────────────────────────────────
-// Add or remove entries here. Any date not listed shows as level 0 (empty).
-// level: 0 = none, 1 = light, 2 = medium, 3 = dark, 4 = darkest
+
 const myRawData = [
   { date: "2026-01-03", count: 2 },
   { date: "2026-01-07", count: 5 },

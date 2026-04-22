@@ -7,7 +7,9 @@ import ProfilePage from "./pages/ProfilePage"
 import DashboardLayout from "./layouts/DashboardLayout"
 import CodingPlaygroundPage from "./pages/CodingPlaygroundPage"
 
+
 export function App() {
+
   return (
     <Routes>
       <Route path="/" element={<LandingPage />} />

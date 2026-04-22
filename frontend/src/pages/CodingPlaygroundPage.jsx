@@ -61,10 +61,23 @@ Library — must support:
       description: "BASIC member cannot borrow more than 2 books",
       predefinedState: {
         books: [
-          { ISBN: "001", title: "Clean Code", author: "Robert Martin", genre: "Programming", totalCopies: 3, availableCopies: 2 },
+          {
+            ISBN: "001",
+            title: "Clean Code",
+            author: "Robert Martin",
+            genre: "Programming",
+            totalCopies: 3,
+            availableCopies: 2,
+          },
         ],
         members: [
-          { memberId: "M01", name: "John", membershipTier: "BASIC", borrowedBooks: ["002", "003"], fine: 0 },
+          {
+            memberId: "M01",
+            name: "John",
+            membershipTier: "BASIC",
+            borrowedBooks: ["002", "003"],
+            fine: 0,
+          },
         ],
       },
       input: { method: "borrowBook", args: { memberId: "M01", ISBN: "001" } },
@@ -75,10 +88,23 @@ Library — must support:
       description: "Member with unpaid fines over $10 cannot borrow",
       predefinedState: {
         books: [
-          { ISBN: "001", title: "Clean Code", author: "Robert Martin", genre: "Programming", totalCopies: 3, availableCopies: 2 },
+          {
+            ISBN: "001",
+            title: "Clean Code",
+            author: "Robert Martin",
+            genre: "Programming",
+            totalCopies: 3,
+            availableCopies: 2,
+          },
         ],
         members: [
-          { memberId: "M01", name: "John", membershipTier: "PREMIUM", borrowedBooks: [], fine: 15 },
+          {
+            memberId: "M01",
+            name: "John",
+            membershipTier: "PREMIUM",
+            borrowedBooks: [],
+            fine: 15,
+          },
         ],
       },
       input: { method: "borrowBook", args: { memberId: "M01", ISBN: "001" } },
@@ -86,17 +112,43 @@ Library — must support:
     },
     {
       id: 3,
-      description: "Reserved book gives priority to reserver over regular borrower",
+      description:
+        "Reserved book gives priority to reserver over regular borrower",
       predefinedState: {
         books: [
-          { ISBN: "001", title: "Clean Code", author: "Robert Martin", genre: "Programming", totalCopies: 1, availableCopies: 1 },
+          {
+            ISBN: "001",
+            title: "Clean Code",
+            author: "Robert Martin",
+            genre: "Programming",
+            totalCopies: 1,
+            availableCopies: 1,
+          },
         ],
         members: [
-          { memberId: "M01", name: "John", membershipTier: "PREMIUM", borrowedBooks: [], fine: 0 },
-          { memberId: "M02", name: "Jane", membershipTier: "PREMIUM", borrowedBooks: [], fine: 0 },
+          {
+            memberId: "M01",
+            name: "John",
+            membershipTier: "PREMIUM",
+            borrowedBooks: [],
+            fine: 0,
+          },
+          {
+            memberId: "M02",
+            name: "Jane",
+            membershipTier: "PREMIUM",
+            borrowedBooks: [],
+            fine: 0,
+          },
         ],
         reservations: [
-          { reservationId: "R01", memberId: "M02", ISBN: "001", reservedAt: "2026-04-21T00:00:00", expiresAt: "2026-04-23T00:00:00" },
+          {
+            reservationId: "R01",
+            memberId: "M02",
+            ISBN: "001",
+            reservedAt: "2026-04-21T00:00:00",
+            expiresAt: "2026-04-23T00:00:00",
+          },
         ],
       },
       input: { method: "borrowBook", args: { memberId: "M01", ISBN: "001" } },
@@ -107,12 +159,29 @@ Library — must support:
       description: "Returning an overdue book adds a fine to the member",
       predefinedState: {
         books: [
-          { ISBN: "001", title: "Clean Code", author: "Robert Martin", genre: "Programming", totalCopies: 2, availableCopies: 1 },
+          {
+            ISBN: "001",
+            title: "Clean Code",
+            author: "Robert Martin",
+            genre: "Programming",
+            totalCopies: 2,
+            availableCopies: 1,
+          },
         ],
         members: [
           {
-            memberId: "M01", name: "John", membershipTier: "PREMIUM", fine: 0,
-            borrowedBooks: [{ ISBN: "001", borrowedAt: "2026-03-01", dueDate: "2026-03-15", renewCount: 0 }],
+            memberId: "M01",
+            name: "John",
+            membershipTier: "PREMIUM",
+            fine: 0,
+            borrowedBooks: [
+              {
+                ISBN: "001",
+                borrowedAt: "2026-03-01",
+                dueDate: "2026-03-15",
+                renewCount: 0,
+              },
+            ],
           },
         ],
       },
@@ -121,35 +190,104 @@ Library — must support:
     },
     {
       id: 5,
-      description: "Returning a book auto-assigns it to a member with a pending reservation",
+      description:
+        "Returning a book auto-assigns it to a member with a pending reservation",
       predefinedState: {
         books: [
-          { ISBN: "001", title: "Clean Code", author: "Robert Martin", genre: "Programming", totalCopies: 1, availableCopies: 0 },
+          {
+            ISBN: "001",
+            title: "Clean Code",
+            author: "Robert Martin",
+            genre: "Programming",
+            totalCopies: 1,
+            availableCopies: 0,
+          },
         ],
         members: [
-          { memberId: "M01", name: "John", membershipTier: "PREMIUM", fine: 0, borrowedBooks: [{ ISBN: "001", borrowedAt: "2026-04-07", dueDate: "2026-04-21", renewCount: 0 }] },
-          { memberId: "M02", name: "Jane", membershipTier: "PREMIUM", fine: 0, borrowedBooks: [] },
+          {
+            memberId: "M01",
+            name: "John",
+            membershipTier: "PREMIUM",
+            fine: 0,
+            borrowedBooks: [
+              {
+                ISBN: "001",
+                borrowedAt: "2026-04-07",
+                dueDate: "2026-04-21",
+                renewCount: 0,
+              },
+            ],
+          },
+          {
+            memberId: "M02",
+            name: "Jane",
+            membershipTier: "PREMIUM",
+            fine: 0,
+            borrowedBooks: [],
+          },
         ],
         reservations: [
-          { reservationId: "R01", memberId: "M02", ISBN: "001", reservedAt: "2026-04-20T00:00:00", expiresAt: "2026-04-22T00:00:00" },
+          {
+            reservationId: "R01",
+            memberId: "M02",
+            ISBN: "001",
+            reservedAt: "2026-04-20T00:00:00",
+            expiresAt: "2026-04-22T00:00:00",
+          },
         ],
       },
       input: { method: "returnBook", args: { memberId: "M01", ISBN: "001" } },
-      expectedOutput: { returned: true, autoAssignedTo: "M02", reservationId: "R01" },
+      expectedOutput: {
+        returned: true,
+        autoAssignedTo: "M02",
+        reservationId: "R01",
+      },
     },
     {
       id: 6,
       description: "Member cannot renew a book that has a pending reservation",
       predefinedState: {
         books: [
-          { ISBN: "001", title: "Clean Code", author: "Robert Martin", genre: "Programming", totalCopies: 1, availableCopies: 0 },
+          {
+            ISBN: "001",
+            title: "Clean Code",
+            author: "Robert Martin",
+            genre: "Programming",
+            totalCopies: 1,
+            availableCopies: 0,
+          },
         ],
         members: [
-          { memberId: "M01", name: "John", membershipTier: "VIP", fine: 0, borrowedBooks: [{ ISBN: "001", borrowedAt: "2026-04-07", dueDate: "2026-04-21", renewCount: 0 }] },
-          { memberId: "M02", name: "Jane", membershipTier: "BASIC", fine: 0, borrowedBooks: [] },
+          {
+            memberId: "M01",
+            name: "John",
+            membershipTier: "VIP",
+            fine: 0,
+            borrowedBooks: [
+              {
+                ISBN: "001",
+                borrowedAt: "2026-04-07",
+                dueDate: "2026-04-21",
+                renewCount: 0,
+              },
+            ],
+          },
+          {
+            memberId: "M02",
+            name: "Jane",
+            membershipTier: "BASIC",
+            fine: 0,
+            borrowedBooks: [],
+          },
         ],
         reservations: [
-          { reservationId: "R01", memberId: "M02", ISBN: "001", reservedAt: "2026-04-19T00:00:00", expiresAt: "2026-04-21T00:00:00" },
+          {
+            reservationId: "R01",
+            memberId: "M02",
+            ISBN: "001",
+            reservedAt: "2026-04-19T00:00:00",
+            expiresAt: "2026-04-21T00:00:00",
+          },
         ],
       },
       input: { method: "renewBook", args: { memberId: "M01", ISBN: "001" } },
@@ -160,10 +298,30 @@ Library — must support:
       description: "Member cannot renew a book more than twice",
       predefinedState: {
         books: [
-          { ISBN: "001", title: "Clean Code", author: "Robert Martin", genre: "Programming", totalCopies: 2, availableCopies: 1 },
+          {
+            ISBN: "001",
+            title: "Clean Code",
+            author: "Robert Martin",
+            genre: "Programming",
+            totalCopies: 2,
+            availableCopies: 1,
+          },
         ],
         members: [
-          { memberId: "M01", name: "John", membershipTier: "VIP", fine: 0, borrowedBooks: [{ ISBN: "001", borrowedAt: "2026-04-01", dueDate: "2026-04-21", renewCount: 2 }] },
+          {
+            memberId: "M01",
+            name: "John",
+            membershipTier: "VIP",
+            fine: 0,
+            borrowedBooks: [
+              {
+                ISBN: "001",
+                borrowedAt: "2026-04-01",
+                dueDate: "2026-04-21",
+                renewCount: 2,
+              },
+            ],
+          },
         ],
         reservations: [],
       },
@@ -172,122 +330,148 @@ Library — must support:
     },
     {
       id: 8,
-      description: "getRecommendations returns books in same genre as borrowing history",
+      description:
+        "getRecommendations returns books in same genre as borrowing history",
       predefinedState: {
         books: [
-          { ISBN: "001", title: "Clean Code",       author: "Robert Martin", genre: "Programming", totalCopies: 2, availableCopies: 2 },
-          { ISBN: "002", title: "Design Patterns",  author: "GoF",           genre: "Programming", totalCopies: 2, availableCopies: 2 },
-          { ISBN: "003", title: "Atomic Habits",    author: "James Clear",   genre: "Self-Help",   totalCopies: 2, availableCopies: 2 },
+          {
+            ISBN: "001",
+            title: "Clean Code",
+            author: "Robert Martin",
+            genre: "Programming",
+            totalCopies: 2,
+            availableCopies: 2,
+          },
+          {
+            ISBN: "002",
+            title: "Design Patterns",
+            author: "GoF",
+            genre: "Programming",
+            totalCopies: 2,
+            availableCopies: 2,
+          },
+          {
+            ISBN: "003",
+            title: "Atomic Habits",
+            author: "James Clear",
+            genre: "Self-Help",
+            totalCopies: 2,
+            availableCopies: 2,
+          },
         ],
         members: [
           {
-            memberId: "M01", name: "John", membershipTier: "PREMIUM", fine: 0,
+            memberId: "M01",
+            name: "John",
+            membershipTier: "PREMIUM",
+            fine: 0,
             borrowedBooks: [],
             borrowingHistory: [{ ISBN: "001", genre: "Programming" }],
           },
         ],
       },
       input: { method: "getRecommendations", args: { memberId: "M01" } },
-      expectedOutput: [{ ISBN: "002", title: "Design Patterns", genre: "Programming" }],
+      expectedOutput: [
+        { ISBN: "002", title: "Design Patterns", genre: "Programming" },
+      ],
     },
   ],
 }
 
 const items = [
-  { label: "Java", value: "java" },
-  { label: "C#", value: "c-sharp" },
-  { label: "Python", value: "python" },
-  { label: "JavaScript", value: "javascript" },
-  { label: "C++", value: "c++" },
+  { label: "Java", value: "java", id: 91 },
+  { label: "C#", value: "csharp", id: 51 },
+  { label: "Python", value: "python", id: 71 },
+  { label: "JavaScript", value: "javascript", id: 102 },
+  { label: "C++", value: "cpp", id: 76 },
 ]
 
 export default function CodingPlaygroundPage() {
-  const [selectedLanguage, setSelectedLanguage] = useState("")
+  const [selectedLanguage, setSelectedLanguage] = useState("java")
 
   return (
-  <div className="h-screen w-full flex flex-col gap-2 p-2 bg-white">
-    
-    {/* TOP BAR */}
-    <div className="flex justify-end">
-      <Select
-        items={items}
-        value={selectedLanguage}
-        onValueChange={setSelectedLanguage}
-      >
-        <SelectTrigger className="w-48">
-          <SelectValue placeholder="Language" />
-        </SelectTrigger>
+    <div className="flex h-screen w-full flex-col gap-2 bg-white p-2">
+      {/* TOP BAR */}
+      <div className="flex justify-end gap-5">
+        <Select
+          items={items}
+          value={selectedLanguage}
+          onValueChange={(value) => setSelectedLanguage(value)}
+        >
+          <SelectTrigger className="w-48">
+            <SelectValue placeholder="Language" />
+          </SelectTrigger>
 
-        <SelectContent>
-          <SelectGroup>
-            {items.map((item) => (
-              <SelectItem key={item.value} value={item.value}>
-                {item.label}
-              </SelectItem>
-            ))}
-          </SelectGroup>
-        </SelectContent>
-      </Select>
-    </div>
+          <SelectContent>
+            <SelectGroup>
+              {items.map((item) => (
+                <SelectItem key={item.value} value={item.value}>
+                  {item.label}
+                </SelectItem>
+              ))}
+            </SelectGroup>
+          </SelectContent>
+        </Select>
+        <Button className="w-32">Submit</Button>
+      </div>
 
-    {/* MAIN RESIZABLE AREA */}
-    <div className="flex-1 min-h-0">
-      <ResizablePanelGroup orientation="horizontal" className="h-full rounded-md border">
-        
-        {/* LEFT: PROBLEM */}
-        <ResizablePanel defaultSize={40} className="min-h-0">
-          <div className="h-full overflow-auto p-4">
-            <pre className="whitespace-pre-wrap text-sm font-inherit">
-              {example.question}
-            </pre>
-          </div>
-        </ResizablePanel>
+      {/* MAIN RESIZABLE AREA */}
+      <div className="min-h-0 flex-1">
+        <ResizablePanelGroup
+          orientation="horizontal"
+          className="h-full rounded-md border"
+        >
+          {/* LEFT: PROBLEM */}
+          <ResizablePanel defaultSize={40} className="min-h-0">
+            <div className="h-full overflow-auto p-4">
+              <pre className="font-inherit text-sm whitespace-pre-wrap">
+                {example.question}
+              </pre>
+            </div>
+          </ResizablePanel>
 
-        <ResizableHandle withHandle />
+          <ResizableHandle withHandle />
 
-        {/* RIGHT SIDE */}
-        <ResizablePanel defaultSize={60} className="min-h-0">
-          <ResizablePanelGroup orientation="vertical" className="h-full">
-            
-            {/* EDITOR */}
-            <ResizablePanel defaultSize={70} className="min-h-0">
-              <div className="h-full">
-                <Editor
-                  height="100%"
-                  defaultLanguage={selectedLanguage}
-                  defaultValue="// enter your code here"
-                  options={{
-                    minimap: { enabled: false },
-                    fontSize: 14,
-                  }}
-                />
-              </div>
-            </ResizablePanel>
-
-            <ResizableHandle withHandle />
-
-            {/* BOTTOM PANEL */}
-            <ResizablePanel defaultSize={30} className="min-h-0">
-              <div className="h-full flex flex-col">
-                
-                {/* TABS */}
-                <div className="flex gap-2 border-b pb-2">
-                  <Button variant="outline">Test Cases</Button>
-                  <Button variant="outline">AI Response</Button>
+          {/* RIGHT SIDE */}
+          <ResizablePanel defaultSize={60} className="min-h-0">
+            <ResizablePanelGroup orientation="vertical" className="h-full">
+              {/* EDITOR */}
+              <ResizablePanel defaultSize={70} className="min-h-0">
+                <div className="h-full">
+                  <Editor
+                    height="100%"
+                    language={selectedLanguage}
+                    defaultValue="// enter your code here"
+                    theme="vs"
+                    options={{
+                      minimap: { enabled: false },
+                      fontSize: 15,
+                    }}
+                  />
                 </div>
+              </ResizablePanel>
 
-                {/* CONTENT */}
-                <div className="flex-1 overflow-auto p-2 text-sm text-gray-600">
-                  Select a tab to view output
+              <ResizableHandle withHandle />
+
+              {/* BOTTOM PANEL */}
+              <ResizablePanel defaultSize={30} className="min-h-0">
+                <div className="flex h-full flex-col">
+                  {/* TABS */}
+                  <div className="flex gap-2 border-b pb-2">
+                    <Button variant="outline">Test Cases</Button>
+                    <Button variant="outline">AI Response</Button>
+                  </div>
+
+                  {/* CONTENT */}
+                  <div className="flex-1 overflow-auto p-2 text-sm text-gray-600">
+                    Select a tab to view output
+                  </div>
                 </div>
-              </div>
-            </ResizablePanel>
-
-          </ResizablePanelGroup>
-        </ResizablePanel>
-
-      </ResizablePanelGroup>
+              </ResizablePanel>
+            </ResizablePanelGroup>
+          </ResizablePanel>
+        </ResizablePanelGroup>
+      </div>
     </div>
-  </div>
-)
+  )
 }
