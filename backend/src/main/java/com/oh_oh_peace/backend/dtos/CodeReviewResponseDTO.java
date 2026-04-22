@@ -6,6 +6,6 @@ import java.util.List;
 
 @Data
 public class CodeReviewResponseDTO {
-    private List<TestCaseResponseDTO> testCaseResponseDTOList;
-    private String aiExplanation;
+    List<TestCaseResponseDTO> testCaseDTOList;
+    private String aiMessage;
 }

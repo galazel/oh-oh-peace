@@ -19,14 +19,12 @@ public class CodeTools {
     private final WebClient webClient;
     private final TestCaseRepo  testCaseRepo;
 
-    @Tool("Submit the code to judge0 to execute and returns a token")
-    public Mono<CodeSubmissionResponseDTO> submitCode(@P("source code") String sourceCode, @P("test case to test with the user's code")String testCase , @P("programming language") String language) {
-
+    @Tool("Execute the code to Judge0")
+    public Mono<CodeSubmissionResponseDTO> submitCode(@P("code of the learner and the test case") String code, @P("language id ") String languageId) {
         CodeSubmissionRequestDTO codeSubmissionRequestDTO = CodeSubmissionRequestDTO.builder()
-                .sourceCode(sourceCode + testCase)
-                .languageId(String.valueOf(language))
+                .sourceCode(code)
+                .languageId(languageId)
                 .build();
-
         return webClient.post()
                 .uri("submissions")
                 .bodyValue(codeSubmissionRequestDTO)
@@ -41,9 +39,15 @@ public class CodeTools {
                 .bodyToMono(CodeOutputResponseDTO.class);
     }
 
-    @Tool("Get all test cases from the request")
-    public List<TestCase> getAllTestCases(CodeReviewRequestDTO codeReviewRequestDTO){
-        return testCaseRepo.findAllTestCasesById(codeReviewRequestDTO.getTestCasesId());
+//    @Tool("If all the test cases are succussfull")
+//    public List<TestCase> getAllTestCases(CodeReviewRequestDTO codeReviewRequestDTO){
+//        return testCaseRepo.findAllTestCasesById(codeReviewRequestDTO.getTestCasesId());
+//    }
+
+    @Tool("who is glyzel galagar")
+    public String hello()
+    {
+        return "She is an IT student";
     }
 
 

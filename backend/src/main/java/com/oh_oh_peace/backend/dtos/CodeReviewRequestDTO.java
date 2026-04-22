@@ -6,7 +6,9 @@ import java.util.List;
 
 @Data
 public class CodeReviewRequestDTO {
-    private String code;
-    private int languageId;
-    private List<Long> testCasesId;
+    private long userId;
+    private long problemId;
+    private String problemDescription;
+    private String sourceCode;
+    private String languageId;
 }
