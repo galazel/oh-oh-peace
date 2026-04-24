@@ -1,8 +1,6 @@
 package com.oh_oh_peace.backend.tools;
 
 import com.oh_oh_peace.backend.dtos.*;
-import com.oh_oh_peace.backend.entities.TestCase;
-import com.oh_oh_peace.backend.repos.TestCaseRepo;
 import dev.langchain4j.agent.tool.P;
 import dev.langchain4j.agent.tool.Tool;
 import lombok.RequiredArgsConstructor;
@@ -17,7 +15,6 @@ import java.util.List;
 public class CodeTools {
 
     private final WebClient webClient;
-    private final TestCaseRepo  testCaseRepo;
 
     @Tool("Execute the code to Judge0")
     public Mono<CodeSubmissionResponseDTO> submitCode(@P("code of the learner and the test case") String code, @P("language id ") String languageId) {
@@ -38,11 +35,6 @@ public class CodeTools {
                 .retrieve()
                 .bodyToMono(CodeOutputResponseDTO.class);
     }
-
-//    @Tool("If all the test cases are succussfull")
-//    public List<TestCase> getAllTestCases(CodeReviewRequestDTO codeReviewRequestDTO){
-//        return testCaseRepo.findAllTestCasesById(codeReviewRequestDTO.getTestCasesId());
-//    }
 
     @Tool("who is glyzel galagar")
     public String hello()

@@ -1,21 +1,17 @@
 package com.oh_oh_peace.backend.entities;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
+@Getter
+@Setter
 @Entity
 @Table(name = "achievement_logs")
 public class AchievementLog {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-    @JoinColumn(name = "achievementId")
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JsonBackReference
-    private Achievement achievement;
-    @JoinColumn(name = "userId")
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JsonBackReference
-    private User user;
+    private Long achievementId;
+    private Long userId;
 }

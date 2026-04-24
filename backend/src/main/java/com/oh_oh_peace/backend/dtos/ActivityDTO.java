@@ -3,7 +3,7 @@ package com.oh_oh_peace.backend.dtos;
 import lombok.Data;
 
 @Data
-public class TestCaseDTO {
+public class ActivityDTO {
     private long id;
-    private String expectedOutput;
+    private String activityName;
 }

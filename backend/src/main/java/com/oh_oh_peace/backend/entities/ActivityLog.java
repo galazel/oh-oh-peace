@@ -1,10 +1,13 @@
 package com.oh_oh_peace.backend.entities;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.time.LocalDateTime;
 
+@Getter
+@Setter
 @Entity
 @Table(name = "activity_logs")
 public class ActivityLog {
@@ -12,8 +15,5 @@ public class ActivityLog {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     private LocalDateTime dateTime;
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "activityId")
-    @JsonBackReference
-    private Activity activity;
+    private Long activityId;
 }

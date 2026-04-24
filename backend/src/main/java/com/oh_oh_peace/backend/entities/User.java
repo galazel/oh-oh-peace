@@ -1,11 +1,11 @@
 package com.oh_oh_peace.backend.entities;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
-import java.util.Set;
-
+@Getter
+@Setter
 @Entity
 @Table(name = "users")
 public class User {
@@ -16,16 +16,4 @@ public class User {
     private String email;
     private String bio;
     private String s3BucketKeyProfile;
-
-    @JsonManagedReference
-    @OneToMany(cascade = CascadeType.ALL,mappedBy = "user")
-    private Set<AchievementLog> achievementLogSet;
-
-    @JsonManagedReference
-    @OneToMany(cascade = CascadeType.ALL)
-    private Set<ProblemSolved> problemSolvedSet;
-
-    @JsonManagedReference
-    @OneToMany(cascade = CascadeType.ALL)
-    private Set<Contribution> contributionSet;
 }

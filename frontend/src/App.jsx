@@ -6,6 +6,8 @@ import DashboardPage from "./pages/DashboardPage"
 import ProfilePage from "./pages/ProfilePage"
 import DashboardLayout from "./layouts/DashboardLayout"
 import CodingPlaygroundPage from "./pages/CodingPlaygroundPage"
+import Code from "./pages/Code"
+
 
 
 export function App() {
@@ -17,11 +19,12 @@ export function App() {
       <Route path="/dashboard" element={<DashboardLayout />}>
         <Route index element={<DashboardPage />} />
         <Route path="me" element={<ProfilePage />} />
-        <Route path="code" element={<CodingPlaygroundPage />} />
-
+        <Route path="solve/problem/:id" element={<CodingPlaygroundPage />} />
       </Route>
       <Route path="/auth-callback" element={<AuthcallbackPage/>}/>
       <Route path="/signout" element={<AuthcallbackPage/>}/>
+      <Route path="/sample" element={<Code/>}/>
+      
     </Routes>
   )
 }

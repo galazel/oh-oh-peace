@@ -5,6 +5,9 @@ import App from "./App.jsx"
 import { ThemeProvider } from "@/components/theme-provider.tsx"
 import { BrowserRouter } from "react-router-dom"
 import { AuthProvider } from "react-oidc-context"
+import {QueryClientProvider, QueryClient} from "@tanstack/react-query"
+
+const queryClient = new QueryClient()
 
 const cognitoAuthConfig = {
   authority: "https://cognito-idp.us-east-1.amazonaws.com/us-east-1_AsCMkLCmW",
@@ -17,10 +20,12 @@ const cognitoAuthConfig = {
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
-    <ThemeProvider >
+    <ThemeProvider>
       <BrowserRouter>
         <AuthProvider {...cognitoAuthConfig}>
-          <App />
+          <QueryClientProvider client={queryClient}>
+            <App />
+          </QueryClientProvider>
         </AuthProvider>
       </BrowserRouter>
     </ThemeProvider>

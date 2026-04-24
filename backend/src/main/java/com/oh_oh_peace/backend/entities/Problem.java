@@ -1,25 +1,33 @@
 package com.oh_oh_peace.backend.entities;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
-import java.time.Duration;
 
+
+@Getter
+@Setter
 @Entity
 @Table(name = "problems")
 public class Problem {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-    @JoinColumn(name = "difficultyId")
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JsonBackReference
-    private Difficulty difficulty;
+    
+    @Column(name = "problemTitle")
+    private String problemTitle;
+
+    @Column(columnDefinition = "LONGTEXT", name = "problemDescription")
     private String problemDescription;
-    @JoinColumn(name = "categoryId")
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JsonBackReference
-    private Category category;
-    private Duration duration;
+
+    @Column(name = "duration")
+    private long duration;
+
+    @Column(name = "difficultyId")
+    private Long difficultyId;
+
+    @Column(name = "categoryId")
+    private Long categoryId;
 
 }
