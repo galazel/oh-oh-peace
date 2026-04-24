@@ -20,6 +20,16 @@ import { AppWindowIcon, CodeIcon } from "lucide-react"
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faStopwatch } from "@fortawesome/free-solid-svg-icons"
+import {
+  Card,
+  CardAction,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card"
+import { Spinner } from "@/components/ui/spinner"
 
 const items = [
   { label: "Java", value: "java", id: 91 },
@@ -32,6 +42,8 @@ const items = [
 export default function CodingPlaygroundPage() {
   const [selectedLanguage, setSelectedLanguage] = useState("java")
   const location = useLocation()
+  const [userCode, setUserCode] = useState("// enter your code here")
+  const [submittedResponse, setSubmittedResponse] = useState({})
 
   const example = location.state || {
     question: "No problem data available. Please navigate from the dashboard.",
@@ -41,6 +53,7 @@ export default function CodingPlaygroundPage() {
   const [handleOutput, setHandleOutput] = useState(false)
   const [timeLeft, setTimeLeft] = useState(0)
   const [isPaused, setIsPaused] = useState(false)
+  const [isLoading, setIsLoading] = useState(false)
 
   const handleOutputChange = () => {
     setHandleOutput((prev) => !prev)
@@ -71,14 +84,74 @@ export default function CodingPlaygroundPage() {
     const s = seconds % 60
     return `${m.toString().padStart(2, "0")}:${s.toString().padStart(2, "0")}`
   }
+  const handleSubmittion = async () => {
+    setIsLoading(true)
+    alert(userCode)
+    fetch("http://localhost:8081/api/v1/code-assistant/submit", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        userId: 1,
+        problemId: example.problemId,
+        problemDescription: example.problemDescription,
+        sourceCode: userCode,
+        languageId:
+          items.find((item) => item.value === selectedLanguage)?.id || 0,
+      }),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        setIsLoading(false)
+        console.log("Submission response:", data)
+        setSubmittedResponse(data)
+      })
+      .catch((error) => {
+        setIsLoading(false)
+        console.error("Error submitting code:", error)
+      })
+  }
+  function TestCaseCard({ testCase }) {
+    return (
+      <Card className={`border ${testCase.status == 'PASS' ? "bg-green-500" : "bg-red-500"}`}>
+        <CardHeader >
+          <CardTitle>{testCase.testCase}</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <p>Expected Output: {testCase.expectedOutput}</p>
+          <p>Actual Output: {testCase.actualOutput}</p>
+        </CardContent>
+      </Card>
+    )
+  }
+
+  function TestCase() {
+    return submittedResponse == null ? <p>Submit your code to see the response from the AI</p> : (
+      <div className="flex flex-col gap-2">
+        {
+          submittedResponse.testCaseDTOList?.map((testCase, index) => (
+            <TestCaseCard key={index} testCase={testCase} />
+          ))
+        }
+    </div>
+    )
+  }
+  function AiResponse() {
+    return submittedResponse ==null ? <p>Submit your code to see the response from the AI</p> : (
+      <div className="flex flex-col gap-2">
+        <p className="text-2xl font-bold">AI Review</p>
+        <p>{submittedResponse.aiMessage}</p>
+      </div>
+    )
+  }
 
   return (
-    <div className="flex h-screen w-full flex-col gap-2 bg-white p-2">
-
+    <div className="flex h-full w-full flex-col gap-2 bg-white p-2 ">
       <div className="flex justify-between gap-1">
         <div className="flex items-center gap-2">
           <FontAwesomeIcon icon={faStopwatch} className="text-xl" />
-          <span className={timeLeft <= 60 ? "text-red-500 font-semibold" : ""}>
+          <span className={timeLeft <= 60 ? "font-semibold text-red-500" : ""}>
             {formatTime(timeLeft)}
           </span>
           <Button onClick={togglePause} className="ml-3">
@@ -106,19 +179,24 @@ export default function CodingPlaygroundPage() {
               </SelectGroup>
             </SelectContent>
           </Select>
-          <Button className="w-32">Submit</Button>
+          <Button className="w-32" onClick={handleSubmittion}>
+            Submit {isLoading && <Spinner className="ml-2" />}
+          </Button>
         </div>
       </div>
 
       <div className="min-h-0 flex-1">
-        <ResizablePanelGroup orientation="horizontal" className="h-full rounded-md border">
-
+        <ResizablePanelGroup
+          orientation="horizontal"
+          className="h-full rounded-md border"
+        >
           <ResizablePanel defaultSize={70} className="min-h-0">
             <div className="h-full">
               <Editor
                 height="100%"
                 language={selectedLanguage}
-                defaultValue="// enter your code here"
+                defaultValue={userCode}
+                onChange={(value) => setUserCode(value)}
                 theme="vs"
                 options={{
                   minimap: { enabled: false },
@@ -137,7 +215,6 @@ export default function CodingPlaygroundPage() {
 
           <ResizablePanel defaultSize={60} className="min-h-0">
             <ResizablePanelGroup orientation="vertical" className="h-full">
-
               <ResizablePanel defaultSize={40} className="min-h-0">
                 <div className="h-full overflow-auto p-4">
                   <p className="text-3xl">Placeholder title</p>
@@ -151,30 +228,30 @@ export default function CodingPlaygroundPage() {
 
               <ResizablePanel defaultSize={30} className="min-h-0">
                 <div className="flex h-full flex-col">
-                  <Tabs defaultValue="preview" onValueChange={handleOutputChange}>
+                  <Tabs
+                    defaultValue="test-case"
+                    onValueChange={handleOutputChange}
+                  >
                     <TabsList>
-                      <TabsTrigger value="preview">
+                      <TabsTrigger value="test-case">
                         <AppWindowIcon />
-                        Preview
+                        Test Cases
                       </TabsTrigger>
-                      <TabsTrigger value="code">
+                      <TabsTrigger value="ai-review">
                         <CodeIcon />
-                        Code
+                        AI Review
                       </TabsTrigger>
                     </TabsList>
                   </Tabs>
 
-                  <div className="flex-1 overflow-auto p-2 text-sm text-gray-600">
-                    {handleOutput
-                      ? "No output to display."
-                      : "Test cases will be displayed here after submission."}
+                  <div className="my-2 flex-1 overflow-auto  p-2 text-sm text-gray-600">
+                  
+                    {handleOutput ? <AiResponse /> : <TestCase />}
                   </div>
                 </div>
               </ResizablePanel>
-
             </ResizablePanelGroup>
           </ResizablePanel>
-
         </ResizablePanelGroup>
       </div>
     </div>
